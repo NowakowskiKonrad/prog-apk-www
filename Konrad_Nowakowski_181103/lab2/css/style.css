@@ -1,0 +1,139 @@
+:root, :root[data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --nav-bg: #cccccc;
+    --nav-text: #000000;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #cccccc;
+}
+
+:root[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --nav-bg: #333333;
+    --nav-text: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --input-bg: #2c2c2c;
+    --input-border: #444444;
+}
+:root {
+  --primary-color: #0000ff;
+  --focus-ring: #ff0000;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 1em;
+}
+
+nav a {
+  color: black;
+  background-color: #ccc;
+
+  font-size: larger;
+  text-decoration: none;
+  border: 3px, #ccc, solid;
+  border-radius: 5px;
+  padding: 0.5rem;
+
+  transition-duration: 200ms;
+}
+
+nav a:hover, button:hover {
+  color: #eee;
+  background-color: #666;
+  border-color: #666;
+  transition-duration: 200ms;
+  cursor: pointer;
+}
+
+nav a, button {
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
+    border-radius: 5px;
+    border: 3px solid;
+    box-shadow: none;
+    border-color: #666;
+    transition-duration: 200ms;
+}
+
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+input, select, textarea {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
+}
+
+.form-group {
+  margin-top: 1rem;
+}
+
+a:hover,
+button[type="submit"]:hover {
+  color: var(--primary-color);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--focus-ring);
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.controls-section * {
+  margin: 0.2rem;
+}
+
+@media (min-width: 768px) {
+  .catalog-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+[hidden] {
+    display: none !important;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Kontakt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Strona główna</a>
+        <a href="produkt.html">Produkt</a>
+        <a href="kontakt.html" aria-current="page">Kontakt</a>
+        <button type="button" id="dark-mode-toggle" aria-pressed="false">Tryb czarny</button>
+    </nav>    
+    <header></header>
+    <main>
+        <h1>Kontakt</h1>
+        <p>
+            <strong>Podgląd lokalny. Formularz nie wysyła wiadomości.</strong> Ceny i walidacja w przeglądarce są demonstracją; w docelowym sklepie serwer musi je niezależnie sprawdzić.
+        </p>
+
+        <form action="kontakt.html" method="get">
+        <div class="form-group">
+            <label for="field-email">Adres e-mail *</label>
+            <input 
+            type="email" 
+            id="field-email" 
+            required 
+            placeholder="jan.kowalski@example.com"
+            >
+        </div>
+        <div class="form-group">
+            <label for="field-produkt">Wybierz produkt *</label>
+            <select id="field-produkt" name="produkt" required>
+            <option value="">Wybierz produkt</option>
+            <option value="gigabyte">Gigabyte G27Q2</option>
+            <option value="iiyama">Iiyama G-Master G2741QSU-B1</option>
+            <option value="msi">MSI MAG 275QF E20</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field-ilosc">Liczba sztuk (zakres: od 1 do 5)</label>
+            <input 
+            type="number" 
+            id="field-ilosc" 
+            name="ilosc" 
+            required 
+            min="1" 
+            max="5" 
+            step="1" 
+            placeholder="1"
+            >
+        </div>
+        <div class="form-group">
+            <label for="field-wiadomosc">Treść wiadomości (od 10 do 500 znaków)</label>
+            <textarea 
+            id="field-wiadomosc" 
+            name="wiadomosc" 
+            required 
+            minlength="10" 
+            maxlength="500" 
+            rows="5" 
+            placeholder="Wpisz tutaj treść swojej wiadomości..."
+            ></textarea>
+        </div>
+        <button type="submit">Sprawdź zapytanie</button>
+        </form>
+
+        <div id="form-summary" aria-live="polite"></div>
+    </main>
+    <footer></footer>
+</body>
+</html>
