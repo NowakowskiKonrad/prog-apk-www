@@ -112,6 +112,19 @@ $btnC.on("click", function () {
     });
 });
 
+/*
+Pobierz przycisk odpowiedzialny za reset
+
+Po kliknięciu przycisku odpowiedzialnego za reset:
+    Zatrzymaj animajcę przycisku A oraz zmień jego CSS na domyślny
+    Zatrzymaj animajcę przycisku C oraz zmień jego CSS na domyślny
+
+    Ustaw wartość zmiennej isExpandedA na false
+    Zmień atrybut aria-pressed przycisku A na false
+
+    Ustaw wartość zmiennej clicks na 0
+    Zmień tekst wyświetlany przez status na domyślny
+*/
 let $btnReset = $("#dem-btn-reset")
 
 $btnReset.on("click", function () {
