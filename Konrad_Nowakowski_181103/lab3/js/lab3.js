@@ -79,4 +79,35 @@ $btnB.on("blur", function() {
     updateSize();
 });
 
+/*
+Pobierz przycisk C
+Pobierz kontener wyświetlający liczbę kliknięć
 
+Zainicjalizuj zmienne trzymające ilość kliknięć, bazową szerokość i bazową wysokość
+
+Jeżeli guzik zostanie kliknięty:
+    Jeżeli liczba kliknięć jest większa lub równa 5 - przerwij działanie
+    Jeżeli przycisk jest obecnie animowany - przerwij działanie
+
+    Zwiększ liczbę kliknięć o 1
+    Zmień tekst wyświetlany w kontenerze
+    Uruchom nową animację:
+        Oblicz nową wysokość i szerokość bazująć na liczbie kliknięć oraz parametrach bazowych
+*/
+let $btnC = $("#dem-btn-3")
+let $status = $("output[role='status']")
+let clicks = 0;
+let baseWidth = 160;
+let baseHeight = 90;
+
+$btnC.on("click", function () {
+    if (clicks >= 5) return;
+    if ($btnC.is(":animated")) return;
+
+    clicks += 1;
+    $status.text(clicks + " / 5");
+    $btnC.animate({
+        height: clicks * 10 + baseHeight + "px",
+        width: clicks * 20 + baseWidth + "px"
+    });
+});

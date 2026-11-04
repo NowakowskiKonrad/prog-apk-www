@@ -144,3 +144,7 @@ textarea:focus-visible {
   height: 90px;
   box-sizing: border-box;
 }
+
+.status-clicks {
+  margin: 10px;
+}
