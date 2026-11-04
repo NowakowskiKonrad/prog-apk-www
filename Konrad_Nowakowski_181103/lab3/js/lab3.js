@@ -10,15 +10,15 @@ Jeżeli przycisk naciśnięty:
     Uruchom nową animację
 */
 
-var $btnA = $("#dem-btn-1");
-var isExpandedA = false;
+let $btnA = $("#dem-btn-1");
+let isExpandedA = false;
 
 $btnA.on("click", function () {
     isExpandedA = !isExpandedA;
     $btnA.attr("aria-pressed", isExpandedA.toString());
 
-    var targetWidth = isExpandedA ? 240 : 160;
-    var targetHeight = isExpandedA ? 130 : 90;
+    let targetWidth = isExpandedA ? 240 : 160;
+    let targetHeight = isExpandedA ? 130 : 90;
 
     $btnA.stop(true, false).animate({
         width: targetWidth + "px",
