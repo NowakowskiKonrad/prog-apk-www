@@ -1,3 +1,7 @@
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    $.fx.off = true;
+}
+
 /*
 Pobierz przycisk A
 Zainicjalizuj zmienną trzymającą stan przycisku : isExpanded
