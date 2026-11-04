@@ -99,7 +99,7 @@ Jeżeli guzik zostanie kliknięty:
         Oblicz nową wysokość i szerokość bazująć na liczbie kliknięć oraz parametrach bazowych
 */
 let $btnC = $("#dem-btn-3")
-let $status = $("output[role='status']")
+let $status = $("#c-button-status")
 let clicks = 0;
 let baseWidth = 160;
 let baseHeight = 90;
@@ -140,4 +140,46 @@ $btnReset.on("click", function () {
 
     clicks = 0;
     $status.text("0 / 5");
+});
+
+/*
+Pobierz przycisk odpowiedzialny za sprawdzanie statusu serwera oraz kontener na tekst.
+
+Jeżeli przycisk zostanie kliknięty:
+    Wyłącz przycisk
+    Zmień tekst w kontenerze na komunikujący o oczekiwaniu na odpowiedź
+
+    Wyślij zapytanie ajax z parametrami url, method, dataType oraz timeout
+    Jeżeli zapytanie wykona się poprawnie zmień tekst w kontenerze na odpowiedź z serwera
+    Jeżeli zapytanie nie wykona się poprawnie zmień tekst w kontenerze:
+        Jeżeli status to timeout to zmień tekst na odpowiedni
+        Jeżeli status jest inny wyświetl go bezpośrednio
+    Zawsze odblokuj możliwość kliknięcia w przycisk
+*/
+let $btnCheckServer = $("#check-server");
+let $responseStatus = $("#php-response")
+
+$btnCheckServer.on("click", function () {
+    $btnCheckServer.prop("disabled", true);
+    $responseStatus.text("Oczekiwanie na dane z serwera...");
+
+    $.ajax({
+        url: "status.php",
+        method: "GET",
+        dataType: "text",
+        timeout: 5000
+    })
+    .done(function (data) {
+        $responseStatus.text("Odpowiedź z serwera: " + data);
+    })
+    .fail(function (resp, textStatus) {
+        if (textStatus === "timeout") {
+            $responseStatus.text("Błąd, przekroczono limit czasu żądania.");
+        } else {
+            $responseStatus.text("Błąd serwera: " + resp.status + " (" + textStatus + ").");
+        }
+    })
+    .always(function () {
+        $btnCheckServer.prop("disabled", false);
+    });
 });

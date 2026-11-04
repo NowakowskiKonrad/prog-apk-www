@@ -20,7 +20,7 @@ Należy wykorzystać XAMPP
 
 ## Sprawdzenie działania animacji jQuery
 
-#### Próba: Szybkie kliknięcia A
+### Próba: Szybkie kliknięcia A
 
 #### Wynik oczekiwany: Zgodny z oczekiwaniami
 
@@ -29,7 +29,7 @@ Stan końcowy zgadza się z liczbą kliknięć dzięki przerywaniu obecnie dzia
 
 ---
 
-#### Próba: Kursor i fokus B
+### Próba: Kursor i fokus B
 
 #### Wynik oczekiwany: Zgodny z oczekiwaniami
 
@@ -38,7 +38,7 @@ Samo najechanie i zabranie myszki wraca do stanu bazowego. Wybranie przycisku ta
 
 ---
 
-#### Próba: Limit i reset C
+### Próba: Limit i reset C
 
 #### Wynik oczekiwany: Zgodny z oczekiwaniami
 
@@ -47,7 +47,7 @@ Kliknięcie guzika 5 razy wraz z czekaniem na zakończenie animacji daje oczekiw
 
 ---
 
-#### Próba: Klawiatura i ruch
+### Próba: Klawiatura i ruch
 
 #### Wynik oczekiwany: Zgodny z oczekiwaniami
 
@@ -57,3 +57,11 @@ Tab dociera do wszystkich przycisków, enter i spacja poprawnie działają na pr
 ---
 
 Konsola w przeglądarce jest wolna od błędów, poprzednia funkcjonalność działa poprawnie.
+
+## PHP
+
+Po wprowadzeniu odpowiednich danych do celu zapytania otrzymywany jest porawny wynik w postaci "PHP działa".
+---
+Jeżeli nazwa pliku status.php zostanie zmieniona zwracany jest kod HTML głównej strony. Jest to prawdopodobnie spowodowane domyślną konfiguracją serwera PHP na Linuxie. Wrócenie do odpowiedniej nazwy pliku poprawnie zwraca oczekiwaną wiadomość.
+---
+Symulacja ograniczonej prędkości sieci (3G w DevTools/Networking) sprawia, że zapytanie wykonywane jest dłużej, jednak na tyle krótko żeby nie wywołać timeout'u.
