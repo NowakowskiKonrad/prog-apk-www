@@ -6,68 +6,54 @@
 python -m http.server 8000
 ```
 
-### Przepływ danych w aplikacji (Lab 2)
+### Uruchamiane serwera php
 
-#### 1. Zmiana motywu (Tryb ciemny/jasny)
+Linux:
+```sh
+php --server localhost:8000 --docroot .
+```
 
-* Zdarzenie: Kliknięcie (`click`) przycisku "Tryb ciemny".
+Windows:
+```
+Należy wykorzystać XAMPP
+```
 
+## Sprawdzenie działania animacji jQuery
 
-* Dane wejściowe: Odczytanie aktualnej wartości atrybutu `data-theme` z elementu `<html>` lub pobranie zapisanego uprzednio wyboru z `localStorage`.
+#### Próba: Szybkie kliknięcia A
 
+#### Wynik oczekiwany: Zgodny z oczekiwaniami
 
-* Obliczenie: Odwrócenie stanu logicznego motywu (np. przejście z `light` na `dark`).
-
-
-* Zmiana DOM: Zaktualizowanie atrybutu `data-theme` na elemencie `<html>`, ustawienie boolowskiego stanu atrybutu `aria-pressed` na przycisku oraz utrwalenie nowej wartości w pamięci `localStorage`.
-
-
-
-#### 2. Zegar i data
-
-* Zdarzenie: Zdarzenie załadowania skryptu oraz przypisanie cyklicznego odświeżania funkcją `setInterval` (co 1000 ms), sterowane kliknięciami w przyciski Start/Stop.
-
-
-* Dane wejściowe: Aktualny czas odczytywany za każdym wywołaniem bezpośrednio z wbudowanego obiektu `Date()`.
-
-
-* Obliczenie: Formatowanie daty i czasu do docelowej struktury (pełny rok, system 24-godzinny, sekundy) przy użyciu lokalizacji pl-PL w obiekcie `Intl.DateTimeFormat`.
-
-
-* Zmiana DOM: Dynamiczne nadpisanie zawartości tekstowej elementu zegara za pośrednictwem właściwości `textContent`.
-
-
-
-#### 3. Wyszukiwanie i filtrowanie produktów
-
-* Zdarzenie: Wprowadzanie modyfikacji znakowych w polu `<input type="search">` poprzez wychwytywanie zdarzenia `input`.
-
-
-* Dane wejściowe: Surowy ciąg znaków podany przez użytkownika, odczytywane asynchronicznie tytuły z nagłówków `<h2>` w poszczególnych kartach.
-
-
-* Obliczenie: Standaryzacja zapytania poprzez wycięcie skrajnych spacji (`trim()`) i ujednolicenie wielkości liter (`toLowerCase()`), a następnie weryfikacja zawartości (przez `includes()`) oraz inkrementacja zmiennej zliczającej poprawne trafienia.
-
-
-* Zmiana DOM: Nadanie lub usunięcie właściwości `hidden` na analizowanych kartach `.card` w drzewie DOM, zaktualizowanie komunikatu błędu i licznika wewnątrz przygotowanego kontenera z atrybutem `aria-live="polite"`.
-
-
-
-#### 4. Kalkulacja wartości i podgląd lokalny formularza
-
-* Zdarzenie: Wstępna wycena wyzwalana przy zdarzeniach `change` / `input` wewnątrz kontrolek wyboru, a ostateczny podgląd uruchamiany przez zdarzenie `submit`.
-
-
-* Dane wejściowe: Wartość wybranej opcji z elementu `<select>`, wprowadzona liczba wewnątrz pola ilości, a także tekst z obiektu `<textarea>`.
-
-
-* Obliczenie: Walidacja matematyczna – sprawdzenie bycia liczbą całkowitą z zadanego przedziału, pomnożenie ilości sztuk na bazie wartości w groszach, przeliczenie wyniku na złotówki z użyciem formattera walutowego `Intl.NumberFormat`; weryfikacja długości treści po uprzednim oczyszczeniu ze spacji.
-
-
-* Zmiana DOM: Przerwanie domyślnego działania przeglądarki metodą `preventDefault()`, wstrzyknięcie komunikatów błędów przy nieprawidłowych polach z przeniesieniem fokusu, usunięcie poprzednich potwierdzeń oraz wstawienie kompletnego, zaktualizowanego bloku z wykorzystaniem `textContent` celem odrzucenia tagów HTML w polu wiadomości.
-
-
+#### Wynik finalny: Zgodny z oczekiwaniami
+Stan końcowy zgadza się z liczbą kliknięć dzięki przerywaniu obecnie działającej animacji i odtwarzaniu kolejnej zaraz po.
 
 ---
 
-Źródło grafik: [x-kom.pl](https://x-kom.pl)
+#### Próba: Kursor i fokus B
+
+#### Wynik oczekiwany: Zgodny z oczekiwaniami
+
+#### Wynik finalny: Zgodny z oczekiwaniami
+Samo najechanie i zabranie myszki wraca do stanu bazowego. Wybranie przycisku tabem, najechanie oraz zabranie myszki z przycisku utrzymuje powiększony stan, ponieważ przycisk nadal posiada focus z klawiatury. Aby pozbyć się stanu powiększonego należy zmienić focus za pomocą przycisku tab.
+
+---
+
+#### Próba: Limit i reset C
+
+#### Wynik oczekiwany: Zgodny z oczekiwaniami
+
+#### Wynik finalny: Zgodny z oczekiwaniami
+Kliknięcie guzika 5 razy wraz z czekaniem na zakończenie animacji daje oczekiwany, maksymalny rozmiar. Dalsze kliknięcia nie powiększają obrazu, ponieważ liczba kliknięć jest śledzona i każde kliknięcie ponad limit kończy funkcję wcześniej. Reset podczas animacji zeruje stan, nie trzeba czekać na koniec animacji.
+
+---
+
+#### Próba: Klawiatura i ruch
+
+#### Wynik oczekiwany: Zgodny z oczekiwaniami
+
+#### Wynik finalny: Zgodny z oczekiwaniami
+Tab dociera do wszystkich przycisków, enter i spacja poprawnie działają na przyciski i jQuery odpowiednio na to reaguje, ograniczenie ruchu znacznie przyspiesza animacje (testowane poprzez DevTools -> Show Rendering -> Emulate CSS media feature prefers-reduced-motion), zachowując odpowiednią funkcjonalność.
+
+---
+
+Konsola w przeglądarce jest wolna od błędów, poprzednia funkcjonalność działa poprawnie.
