@@ -49,9 +49,9 @@ let isFocused = false;
 let isHovered = false;
 
 function updateSize() {
-    var shouldExpand = isHovered || isFocused;
-    var targetWidth = shouldExpand ? 220 : 160;
-    var targetHeight = shouldExpand ? 120 : 90;
+    let shouldExpand = isHovered || isFocused;
+    let targetWidth = shouldExpand ? 220 : 160;
+    let targetHeight = shouldExpand ? 120 : 90;
 
     $btnB.stop(true, false).animate({
         height: targetHeight + "px",
