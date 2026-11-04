@@ -25,3 +25,58 @@ $btnA.on("click", function () {
         height: targetHeight + "px"
     }, 300);
 });
+
+/*
+Pobierz przycisk B
+Zainicjalizuj zmienne trzymające stan przycisku : isFocused oraz isHovered
+
+Stwórz metodę odpowiedzialną za animowanie przycisku:
+    Zainicjalizuj zmienną shouldExpand z wartością zależną od isFocused oraz isHovered. (Jeżeli którakolwiek ze zmiennych jest true to shouldExpand również jest true)
+    Znajdź docelową wysokość oraz szerokość zależnie od zmiennej shouldExpand (ternary operator)
+
+    Zatrzymaj animację
+    Uruchom nową animację
+
+Przy najechaniu myszki na przycisk zmień zmienną isHovered na true i uruchom animację
+Przy złapaniu focusu przez przycisk zmień zmienną isFocused na true i uruchom animację
+Przy zjechaniu myszki z przycisku zmień zmienną isHovered na false i uruchom animację
+Przy straceniu focusu przez przycisk zmień zmienną isFocused na false i uruchom animację
+*/
+
+let $btnB = $("#dem-btn-2")
+
+let isFocused = false;
+let isHovered = false;
+
+function updateSize() {
+    var shouldExpand = isHovered || isFocused;
+    var targetWidth = shouldExpand ? 220 : 160;
+    var targetHeight = shouldExpand ? 120 : 90;
+
+    $btnB.stop(true, false).animate({
+        height: targetHeight + "px",
+        width: targetWidth + "px"
+    });
+}
+
+$btnB.on("mouseenter", function() {
+    isHovered = true;
+    updateSize();
+});
+
+$btnB.on("focus", function() {
+    isFocused = true;
+    updateSize();
+});
+
+$btnB.on("mouseleave", function() {
+    isHovered = false;
+    updateSize();
+});
+
+$btnB.on("blur", function() {
+    isFocused = false;
+    updateSize();
+});
+
+
