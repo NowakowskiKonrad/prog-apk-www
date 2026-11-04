@@ -111,3 +111,16 @@ $btnC.on("click", function () {
         width: clicks * 20 + baseWidth + "px"
     });
 });
+
+let $btnReset = $("#dem-btn-reset")
+
+$btnReset.on("click", function () {
+    $btnA.stop(true, false).css({width: "160px", height: "90px"});
+    $btnC.stop(true, false).css({width: "160px", height: "90px"});
+
+    isExpandedA = false;
+    $btnA.attr("aria-pressed", "false");
+
+    clicks = 0;
+    $status.text("0 / 5");
+});
