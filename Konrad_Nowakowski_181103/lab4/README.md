@@ -1,12 +1,6 @@
-## Lab 1
+## Lab 4
 
-### Jak uruchomić:
-
-```sh
-python -m http.server 8000
-```
-
-### Uruchamiane serwera php
+### Uruchamianie serwera php
 
 Linux:
 ```sh
@@ -18,50 +12,132 @@ Windows:
 Należy wykorzystać XAMPP
 ```
 
-## Sprawdzenie działania animacji jQuery
+## Struktura projektu
 
-### Próba: Szybkie kliknięcia A
+```
+lab4/
+├── index.html
+├── lab4.php
+├── status.php
+├── includes/
+│   ├── naglowek.php
+│   └── produkty.php
+├── html/
+├── css/
+├── js/
+├── img/
+└── README.md
+```
 
-#### Wynik oczekiwany: Zgodny z oczekiwaniami
+## Pseudokod
 
-#### Wynik finalny: Zgodny z oczekiwaniami
-Stan końcowy zgadza się z liczbą kliknięć dzięki przerywaniu obecnie działającej animacji i odtwarzaniu kolejnej zaraz po.
+### Wspólny szkielet pliku
 
----
+```
+session_start()
+require_once includes/produkty.php  -> $produkty
+$method = $_SERVER['REQUEST_METHOD']
 
-### Próba: Kursor i fokus B
+JEŚLI $method == 'POST'  -> gałąź zapisu wyboru
+W PRZECIWNYM RAZIE       -> gałąź filtra GET
 
-#### Wynik oczekiwany: Zgodny z oczekiwaniami
+widok: sesja -> formularz GET -> katalog (while) -> formularz POST (for)
+```
 
-#### Wynik finalny: Zgodny z oczekiwaniami
-Samo najechanie i zabranie myszki wraca do stanu bazowego. Wybranie przycisku tabem, najechanie oraz zabranie myszki z przycisku utrzymuje powiększony stan, ponieważ przycisk nadal posiada focus z klawiatury. Aby pozbyć się stanu powiększonego należy zmienić focus za pomocą przycisku tab.
+### Poprawne żądanie POST
 
----
+```
+id     = numberFromForm($_POST,'produkt')   # is_string + FILTER_VALIDATE_INT -> int
+amount = numberFromForm($_POST,'ilosc')
 
-### Próba: Limit i reset C
+JEŚLI id = null                       -> błąd pola produkt
+W PRZECIWNYM RAZIE brak produktu o id -> błąd pola produkt
+JEŚLI amount = null                   -> błąd pola ilosc
+W PRZECIWNYM RAZIE amount < 1 LUB > MAX_COUNT -> błąd pola ilosc
+JEŚLI brak błędów I amount > produkt.stan     -> błąd pola ilosc (magazyn)
 
-#### Wynik oczekiwany: Zgodny z oczekiwaniami
+JEŚLI brak błędów:
+    $_SESSION['ostatni_wybor'] = { id: id, ilosc: amount }
+    header('Location: lab4.php', true, 303)
+    exit
+```
 
-#### Wynik finalny: Zgodny z oczekiwaniami
-Kliknięcie guzika 5 razy wraz z czekaniem na zakończenie animacji daje oczekiwany, maksymalny rozmiar. Dalsze kliknięcia nie powiększają obrazu, ponieważ liczba kliknięć jest śledzona i każde kliknięcie ponad limit kończy funkcję wcześniej. Reset podczas animacji zeruje stan, nie trzeba czekać na koniec animacji.
+### Błędne żądanie POST
 
----
+```
+http_response_code(400)
+$sent = przesłane wartości tekstowe (do pokazania w formularzu)
+# $_SESSION NIETKNIĘTA -> wcześniejszy wybór zostaje
+widok: pełny katalog + komunikat przy błędnym polu
+```
 
-### Próba: Klawiatura i ruch
+### Żądanie GET (filtr)
 
-#### Wynik oczekiwany: Zgodny z oczekiwaniami
+```
+JEŚLI brak $_GET['kategoria']                                  -> filter = 'wszystkie'
+JEŚLI kategoria jest tekstem ZE zbioru {wszystkie,ksiazki,akcesoria} -> filter = kategoria
+W PRZECIWNYM RAZIE (tablica lub nieznana wartość)              -> filter = 'wszystkie' + komunikat
+# gałąź GET nie zapisuje nic w sesji
+widok: 200 + produkty przefiltrowane pętlą while
+```
 
-#### Wynik finalny: Zgodny z oczekiwaniami
-Tab dociera do wszystkich przycisków, enter i spacja poprawnie działają na przyciski i jQuery odpowiednio na to reaguje, ograniczenie ruchu znacznie przyspiesza animacje (testowane poprzez DevTools -> Show Rendering -> Emulate CSS media feature prefers-reduced-motion), zachowując odpowiednią funkcjonalność.
+## Wyniki prób
 
----
+### Filtr GET
 
-Konsola w przeglądarce jest wolna od błędów, poprzednia funkcjonalność działa poprawnie.
+Wynik Oczekiwany:
+?kategoria=ksiazki pokazuje tylko książki. Nieznana kategoria lub
+?kategoria[]=ksiazki pokazuje pełną listę i komunikat
 
-## PHP
+Wynik rzeczywisty:
+?kategoria=ksiazki zwraca tylko książki
+?kategoria=ksiazkid zwraca wszystko + wyświetla komunikat
+?kategoria[]=ksiazki zwraca wszystko + wyświetla komunikat
 
-Po wprowadzeniu odpowiednich danych do celu zapytania otrzymywany jest porawny wynik w postaci "PHP działa".
----
-Jeżeli nazwa pliku status.php zostanie zmieniona zwracany jest kod HTML głównej strony. Jest to prawdopodobnie spowodowane domyślną konfiguracją serwera PHP na Linuxie. Wrócenie do odpowiedniej nazwy pliku poprawnie zwraca oczekiwaną wiadomość.
----
-Symulacja ograniczonej prędkości sieci (3G w DevTools/Networking) sprawia, że zapytanie wykonywane jest dłużej, jednak na tyle krótko żeby nie wywołać timeout'u.
+
+### Poprawny POST i odświeżenie
+
+Wynik Oczekiwany:
+Wybierz dostępny produkt i poprawną ilość. W Network widać POST
+303, potem GET 200. Po odświeżeniu i zmianie filtra zapisany wybór
+pozostaje widoczny.
+
+Wynik rzeczywisty:
+W Network po kliknięciu guzika widać 303 POST, następnie 200 GET. Ustalone wartości zostają zapisane, nawet po odświeżeniu strony.
+
+### Błędne wartości POST
+
+Wynik Oczekiwany:
+Sprawdź ilość 0, 6, 2.5, 2abc, brak pola, tablicę i nieznany produkt.
+Każda próba daje HTTP 400 i pozostawia poprzedni wybór.
+
+Wynik rzeczywisty:
+Zmieniając pole value w formularzu i wysyłając zapytanie otrzymujemy odpowiedź 400, błędne zapytanie nie zmienia zapisanego wyboru.
+
+### Stan magazynowy
+
+Wynik Oczekiwany:
+Dla produktu ze stanem 1 spróbuj wybrać 2 sztuki. Serwer odrzuca
+wybór, mimo że 2 mieści się w przedziale 1–5.
+
+Wynik rzeczywisty:
+Serwer odrzuca zapytanie ze stosownym powodem wypisanym pod formularzem.
+
+### Odrębna sesja i tekst HTML
+
+Wynik Oczekiwany:
+W nowej sesji, np. w osobnym oknie prywatnym, nie ma wyboru. Nazwa
+testowa `<b>Test</b>` wyświetla się jako tekst; przywróć zwykłą
+nazwę.
+
+Wynik rzeczywisty:
+Nazwa testowa wyświetlana jest bezpośrednio, bez konwersji na HTML dzięki wykorzystaniu `htmlspecialchars()`.
+
+### Strona po zmianie ścieżek
+
+Wynik Oczekiwany:
+Otwórz stronę główną i podstrony. Działają style, obrazy, linki i funkcje z
+lab3, w tym animacje i żądanie do status.php.
+
+Wynik rzeczywisty:
+Cała funkcjonalność z poprzedniego laboratorium nadal działa poprawnie.
